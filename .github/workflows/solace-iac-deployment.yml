@@ -1,6 +1,10 @@
 name: Solace IaC deployment pipeline
 run-name: ${{ github.actor }} triggered the deployment
-on: [push]
+on: 
+  push:
+    branches:
+      - 'development'  
+  workflow_dispatch:
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
