@@ -10,3 +10,9 @@ terraform {
     }
   }
 }
+provider "solacebroker" {
+  url            = var.broker_url
+  username       = var.broker_username
+  password       = var.broker_password
+}
+
