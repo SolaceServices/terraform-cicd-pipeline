@@ -1,12 +1,30 @@
 name: Solace IaC deployment pipeline
 run-name: ${{ github.actor }} triggered the deployment
 on: 
-  push:
-    branches:
-      - 'development'  
   workflow_dispatch:
+    inputs:
+      environment:
+        required: true
+        type: string
+        default: 'development'
+      service_name:
+        required: true
+        type: string
+        default: 'AJCR_sandbox_mesh'        
 jobs:
-  check-bats-version:
+  debug-context:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Write GitHub context to log
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+  solace-deployment:
+    needs: debug-context
+    defaults:
+      run:
+        working-directory: ${{ inputs.service_name }}    
     runs-on: ubuntu-latest
     permissions:
       # This is required for actions/checkout
@@ -29,3 +47,6 @@ jobs:
       - name: OpenTofu Init
         id: init
         run: tofu init
+
+
+
