@@ -1,4 +1,7 @@
 terraform {
+  backend "local" {
+    path = "terraform.tfstate"
+  }
   required_providers {
     solacecloud = {
       source = "registry.terraform.io/solaceproducts/solacecloud"
@@ -15,4 +18,3 @@ provider "solacebroker" {
   username       = var.broker_username
   password       = var.broker_password
 }
-
