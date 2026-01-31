@@ -9,7 +9,7 @@ on:
         default: 'AJCR_sandbox_mesh'        
 jobs:
   debug-context:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Write GitHub context to log
         env:
