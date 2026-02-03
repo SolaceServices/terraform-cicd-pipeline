@@ -66,4 +66,7 @@ jobs:
         run: terraform init
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan -var-file=variables-values.tfvars
+        run: terraform plan -out=tfplan.tfplan 
+        
+      - name: Terraform Apply
+        run: terraform apply tfplan.tfplan

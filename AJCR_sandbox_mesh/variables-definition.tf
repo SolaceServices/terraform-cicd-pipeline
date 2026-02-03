@@ -10,6 +10,7 @@ variable "broker_username" {
 }
 
 variable "broker_password" {
+  sensitive = true
   type = string
   description = "The management password of the Solace broker."
 }
