@@ -32,8 +32,8 @@ resource "solacebroker_msg_vpn_client_profile" "sandbox-vpn_sdkperf_dmq_cp" {
 }
 
 resource "solacebroker_msg_vpn_client_username" "sandbox-vpn_sdkperf_dmq" {
-  acl_profile_name     = solacebroker_msg_vpn_acl_profile.sandbox-vpn_sdkperf_acl.acl_profile_name
-  client_profile_name  = solacebroker_msg_vpn_client_profile.sandbox-vpn_sdkperf_cp.client_profile_name
+  acl_profile_name     = solacebroker_msg_vpn_acl_profile.sandbox-vpn_sdkperf_dmq_acl.acl_profile_name
+  client_profile_name  = solacebroker_msg_vpn_client_profile.sandbox-vpn_sdkperf_dmq_cp.client_profile_name
   client_username      = "sdkperf_dmq"
   password             = var.testing_dmq_user_password
   enabled              = true
