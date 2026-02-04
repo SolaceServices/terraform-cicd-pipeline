@@ -46,9 +46,6 @@ jobs:
 
   solace-deployment:
     needs: debug-context
-    defaults:
-      run:
-        working-directory: "${{ inputs.service_name }}"
     runs-on: self-hosted
     permissions:
       # This is required for actions/checkout
@@ -69,7 +66,7 @@ jobs:
 
       - name: Download Terraform state file
         id: terraform
-        uses: ./github/actions/terraform-backend-github
+        uses: ./.github/actions/terraform-backend-github
         continue-on-error: true
         with:
           token: ${{ secrets._XGITHUB_TOKEN }}
@@ -87,7 +84,7 @@ jobs:
         run: terraform apply tfplan.tfplan
 
       - name: Upload Terraform state file
-        uses: ./github/actions/terraform-backend-github
+        uses: ./.github/actions/terraform-backend-github
         with:
           action: upload
           ref: ${{ github.ref }}
