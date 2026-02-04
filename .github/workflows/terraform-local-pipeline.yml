@@ -70,6 +70,7 @@ jobs:
       - name: Download Terraform state file
         id: terraform
         uses: Rindrics/terraform-backend-github@v0.0.10
+        continue-on-error: true
         with:
           token: ${{ secrets._XGITHUB_TOKEN }}
           action: download
