@@ -62,11 +62,25 @@ jobs:
         with:
           terraform_version: 1.6.6
 
+      - name: Download Terraform state file
+        id: terraform
+        uses: Rindrics/terraform-backend-action@v0.0.10
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          state_repo: terraform-cicd-pipeline/${{ inputs.service_name }}/tfstates
+
       - name: Terraform Init
         run: terraform init
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan.tfplan 
-        
+
       - name: Terraform Apply
         run: terraform apply tfplan.tfplan
+
+      - name: Upload Terraform state file
+        uses: Rindrics/terraform-backend-action@v0.0.10
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          state_repo: terraform-cicd-pipeline/${{ inputs.service_name }}/tfstates
+          sha: ${{ steps.terraform.outputs.sha }}        
