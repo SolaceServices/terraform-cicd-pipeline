@@ -63,8 +63,9 @@ jobs:
           terraform_version: 1.14.4
 
       - name: Terraform Init
+        shell: bash
         run: terraform init
-        working-directory: ${{ inputs.service_name }}
+        working-directory: "./${{ inputs.service_name }}"
 
       - name: Download Terraform state file
         id: terraform
@@ -77,7 +78,7 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan.tfplan
-        working-directory: ${{ inputs.service_name }}
+        working-directory: "./${{ inputs.service_name }}"
 
       - name: Terraform Apply
         run: terraform apply tfplan.tfplan
