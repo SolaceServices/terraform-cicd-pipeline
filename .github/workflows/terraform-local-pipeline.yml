@@ -72,6 +72,7 @@ jobs:
         uses: Rindrics/terraform-backend-github@v0.0.10
         with:
           token: ${{ secrets._XGITHUB_TOKEN }}
+          action: download
           state_path_local: "./${{ inputs.service_name }}/terraform.tfstate"
           state_repo: "SolaceServices/terraform-cicd-pipeline"
           state_path_remote: "${{ inputs.service_name }}/terraform.tfstate"
@@ -86,6 +87,7 @@ jobs:
       - name: Upload Terraform state file
         uses: Rindrics/terraform-backend-github@v0.0.10
         with:
+          action: upload
           state_path_local: "./${{ inputs.service_name }}/terraform.tfstate"
           state_repo: "SolaceServices/terraform-cicd-pipeline"
           state_path_remote: "${{ inputs.service_name }}/terraform.tfstate"    
