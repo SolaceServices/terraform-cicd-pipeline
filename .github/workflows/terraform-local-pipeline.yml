@@ -64,7 +64,7 @@ jobs:
 
       - name: Download Terraform state file
         id: terraform
-        uses: alfonso-chacon/terraform-backend-action@v0.0.10
+        uses: Rindrics/terraform-backend-github@v1
         with:
           token: ${{ secrets._XGITHUB_TOKEN }}
           state_repo: terraform-cicd-pipeline/${{ inputs.service_name }}/tfstates
@@ -79,7 +79,7 @@ jobs:
         run: terraform apply tfplan.tfplan
 
       - name: Upload Terraform state file
-        uses: alfonso-chacon/terraform-backend-action@v0.0.10
+        uses: Rindrics/terraform-backend-github@v1
         with:
           token: ${{ secrets._XGITHUB_TOKEN }}
           state_repo: terraform-cicd-pipeline/${{ inputs.service_name }}/tfstates
