@@ -60,22 +60,24 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.6.6
+          terraform_version: 1.14.4
 
       - name: Terraform Init
         run: terraform init
+        working-directory: ${{ inputs.service_name }}
 
       - name: Download Terraform state file
         id: terraform
         uses: Rindrics/terraform-backend-github@v0.0.10
         with:
           token: ${{ secrets._XGITHUB_TOKEN }}
-          state_path_local: "${{ inputs.service_name }}/terraform.tfstate"
+          state_path_local: "./${{ inputs.service_name }}/terraform.tfstate"
           state_repo: "SolaceServices/terraform-cicd-pipeline"
           state_path_remote: "${{ inputs.service_name }}/terraform.tfstate"
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan.tfplan 
+        run: terraform plan -out=tfplan.tfplan
+        working-directory: ${{ inputs.service_name }}
 
       - name: Terraform Apply
         run: terraform apply tfplan.tfplan
@@ -83,6 +85,6 @@ jobs:
       - name: Upload Terraform state file
         uses: Rindrics/terraform-backend-github@v0.0.10
         with:
-          token: ${{ secrets._XGITHUB_TOKEN }}
-          state_repo: terraform-cicd-pipeline/${{ inputs.service_name }}/tfstates
-          sha: ${{ steps.terraform.outputs.sha }}        
+          state_path_local: "./${{ inputs.service_name }}/terraform.tfstate"
+          state_repo: "SolaceServices/terraform-cicd-pipeline"
+          state_path_remote: "${{ inputs.service_name }}/terraform.tfstate"    
