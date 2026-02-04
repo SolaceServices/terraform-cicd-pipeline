@@ -69,11 +69,12 @@ jobs:
 
       - name: Download Terraform state file
         id: terraform
-        uses: Rindrics/terraform-backend-github@v0.0.10
+        uses: ./github/actions/terraform-backend-github
         continue-on-error: true
         with:
           token: ${{ secrets._XGITHUB_TOKEN }}
           action: download
+          ref: ${{ github.ref }}
           state_path_local: "./${{ inputs.service_name }}/terraform.tfstate"
           state_repo: "SolaceServices/terraform-cicd-pipeline"
           state_path_remote: "${{ inputs.service_name }}/tfstate/terraform.tfstate"
@@ -86,9 +87,10 @@ jobs:
         run: terraform apply tfplan.tfplan
 
       - name: Upload Terraform state file
-        uses: Rindrics/terraform-backend-github@v0.0.10
+        uses: ./github/actions/terraform-backend-github
         with:
           action: upload
+          ref: ${{ github.ref }}
           state_path_local: "./${{ inputs.service_name }}/terraform.tfstate"
           state_repo: "SolaceServices/terraform-cicd-pipeline"
           state_path_remote: "${{ inputs.service_name }}/tfstate/terraform.tfstate"    

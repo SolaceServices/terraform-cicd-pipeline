@@ -61,3 +61,4 @@ resource "solacebroker_msg_vpn" "sandbox-vpn" {
   service_web_plain_text_enabled                          = false
 
 }
+
