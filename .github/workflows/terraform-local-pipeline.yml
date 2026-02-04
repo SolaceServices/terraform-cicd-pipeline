@@ -48,7 +48,7 @@ jobs:
     needs: debug-context
     defaults:
       run:
-        working-directory: ${{ inputs.service_name }}    +
+        working-directory: "${{ inputs.service_name }}"
     runs-on: self-hosted
     permissions:
       # This is required for actions/checkout
