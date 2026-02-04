@@ -65,13 +65,12 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      - name: Download Artifact
-        uses: badgerhobbs/terraform-state@v2
+      - name: Download Terraform state file
+        id: terraform
+        uses: Rindrics/terraform-backend-github@v0.0.10
         with:
-          operation: download
-          location: artifact
-          github_token: ${{ secrets._XGITHUB_TOKEN }}
-        continue-on-error: true      
+          token: ${{ secrets._XGITHUB_TOKEN }}
+          state_repo: terraform-cicd-pipeline/${{ inputs.service_name }}/tfstates
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan.tfplan 
@@ -79,9 +78,9 @@ jobs:
       - name: Terraform Apply
         run: terraform apply tfplan.tfplan
 
-      - name: Upload Artifact
-        uses: badgerhobbs/terraform-state@v2
+      - name: Upload Terraform state file
+        uses: Rindrics/terraform-backend-github@v0.0.10
         with:
-            operation: upload
-            location: artifact
-            github_token: ${{ secrets._XGITHUB_TOKEN }}
+          token: ${{ secrets._XGITHUB_TOKEN }}
+          state_repo: terraform-cicd-pipeline/${{ inputs.service_name }}/tfstates
+          sha: ${{ steps.terraform.outputs.sha }}        
