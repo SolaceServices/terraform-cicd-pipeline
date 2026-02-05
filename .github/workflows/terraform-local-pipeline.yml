@@ -77,6 +77,7 @@ jobs:
           state_path_remote: "${{ inputs.service_name }}/tfstate/terraform.tfstate"
 
       - name: Terraform Plan
+        shell: bash
         run: terraform plan -out=tfplan.tfplan
         working-directory: "./${{ inputs.service_name }}"
 
