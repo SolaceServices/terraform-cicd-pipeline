@@ -76,7 +76,7 @@ runs:
             https://api.github.com/repos/${{ inputs.state_repo }}/contents/${{ inputs.state_path_remote }}?ref=${{ inputs.ref }} > response_code
           HTTP_CODE=$(cat response_code)
           if [ "$HTTP_CODE" -eq 200 ]; then
-            jq -r '.download_url' file.response > download_url_response_file
+            jq -r '.download_url' ${{ inputs.state_path_local }}.response > download_url_response_file
             DOWNLOAD_URL=$(cat download_url_response_file)
             curl -L \
               -H "Authorization: Bearer ${{ inputs.token }}" \
