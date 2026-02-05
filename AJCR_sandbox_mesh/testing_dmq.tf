@@ -40,3 +40,13 @@ resource "solacebroker_msg_vpn_client_username" "sandbox-vpn_sdkperf_dmq" {
   msg_vpn_name         = solacebroker_msg_vpn.sandbox-vpn.msg_vpn_name
   guaranteed_endpoint_permission_override_enabled = true
 }
+
+resource "solacebroker_msg_vpn_client_username" "sandbox-vpn_sdkperf_dmq_2" {
+  acl_profile_name     = solacebroker_msg_vpn_acl_profile.sandbox-vpn_sdkperf_dmq_acl.acl_profile_name
+  client_profile_name  = solacebroker_msg_vpn_client_profile.sandbox-vpn_sdkperf_dmq_cp.client_profile_name
+  client_username      = "sdkperf_dmq_2"
+  password             = var.testing_dmq_user_password
+  enabled              = true
+  msg_vpn_name         = solacebroker_msg_vpn.sandbox-vpn.msg_vpn_name
+  guaranteed_endpoint_permission_override_enabled = true
+}
