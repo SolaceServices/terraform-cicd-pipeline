@@ -82,6 +82,7 @@ jobs:
         working-directory: "./${{ inputs.service_name }}"
 
       - name: Terraform Apply
+        shell: bash
         run: terraform apply tfplan.tfplan
         working-directory: "./${{ inputs.service_name }}"
 
