@@ -71,7 +71,7 @@ jobs:
         with:
           token: ${{ secrets._XGITHUB_TOKEN }}
           action: download
-          ref: ${{ github.ref }}
+          ref: ${{ github.ref_name }}
           state_path_local: "./${{ inputs.service_name }}/.terraform/terraform.tfstate"
           state_repo: "SolaceServices/terraform-cicd-pipeline"
           state_path_remote: "${{ inputs.service_name }}/tfstate/terraform.tfstate"
@@ -90,7 +90,7 @@ jobs:
         uses: ./.github/actions/terraform-backend-github
         with:
           action: upload
-          ref: ${{ github.ref }}
+          ref: ${{ github.ref_name }}
           sha: ${{ steps.terraform.outputs.sha }}
           state_path_local: "./${{ inputs.service_name }}/.terraform/terraform.tfstate"
           state_repo: "SolaceServices/terraform-cicd-pipeline"
