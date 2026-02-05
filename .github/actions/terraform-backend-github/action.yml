@@ -57,8 +57,8 @@ runs:
     - name: Check if Terraform env is initialized
       shell: bash
       run: |
-        if [ ! -d "${{ env.workdir }}/.terraform" ]; then
-          echo "Error: Terraform has not been initialized. Please run 'terraform init' at `${{ env.workdir }}` before this action." >&2
+        if [ ! -d "${{ env.workdir }}" ]; then
+          echo "Error: Terraform has not been initialized, there is no .terraform folder. Please run 'terraform init' at `${{ env.workdir }}` before this action." >&2
           exit 1
         fi
 

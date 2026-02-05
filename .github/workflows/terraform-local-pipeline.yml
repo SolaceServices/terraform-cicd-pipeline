@@ -72,7 +72,7 @@ jobs:
           token: ${{ secrets._XGITHUB_TOKEN }}
           action: download
           ref: ${{ github.ref }}
-          state_path_local: "./${{ inputs.service_name }}/terraform.tfstate"
+          state_path_local: "./${{ inputs.service_name }}/.terraform/terraform.tfstate"
           state_repo: "SolaceServices/terraform-cicd-pipeline"
           state_path_remote: "${{ inputs.service_name }}/tfstate/terraform.tfstate"
 
@@ -82,6 +82,7 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply tfplan.tfplan
+        working-directory: "./${{ inputs.service_name }}"
 
       - name: Upload Terraform state file
         uses: ./.github/actions/terraform-backend-github
@@ -89,7 +90,7 @@ jobs:
           action: upload
           ref: ${{ github.ref }}
           sha: ${{ steps.terraform.outputs.sha }}
-          state_path_local: "./${{ inputs.service_name }}/terraform.tfstate"
+          state_path_local: "./${{ inputs.service_name }}/.terraform/terraform.tfstate"
           state_repo: "SolaceServices/terraform-cicd-pipeline"
           state_path_remote: "${{ inputs.service_name }}/tfstate/terraform.tfstate"
           token: ${{ secrets._XGITHUB_TOKEN }}
