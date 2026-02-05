@@ -65,7 +65,7 @@ runs:
     - name: Perform action
       id: handle-state-file
       shell: bash
-      run: |
+      run: |  
         if [ "${{ inputs.action }}" = "download" ]; then
           curl -L \
             -H "Accept: application/vnd.github+json" \
@@ -76,7 +76,18 @@ runs:
             https://api.github.com/repos/${{ inputs.state_repo }}/contents/${{ inputs.state_path_remote }}?ref=${{ inputs.ref }} > response_code
           HTTP_CODE=$(cat response_code)
           if [ "$HTTP_CODE" -eq 200 ]; then
-            jq -r '.content' ${{ inputs.state_path_local }}.response | base64 --decode > ${{ inputs.state_path_local }}
+            jq -r '.download_url' file.response > download_url_response_file
+            DOWNLOAD_URL=$(cat download_url_response_file)
+            curl -L \
+              -H "Authorization: Bearer ${{ inputs.token }}" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              -o ${{ inputs.state_path_local }} \
+              -w "%{http_code}" \
+              "$DOWNLOAD_URL" > response_code
+              if [ "$HTTP_CODE" -neq 200 ]; then
+                echo "Error: Failed to download state file, received HTTP code $HTTP_CODE" >&2
+                exit 1
+              fi 
             echo "sha=$(jq -r '.sha' ${{ inputs.state_path_local }}.response)" >> $GITHUB_OUTPUT
           elif [ "$HTTP_CODE" -eq 404 ]; then
             echo "File not found, skipping download."
