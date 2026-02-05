@@ -84,7 +84,7 @@ runs:
               -o ${{ inputs.state_path_local }} \
               -w "%{http_code}" \
               "$DOWNLOAD_URL" > response_code
-              if [ "$HTTP_CODE" -neq 200 ]; then
+              if [ "$HTTP_CODE" -ne 200 ]; then
                 echo "Error: Failed to download state file, received HTTP code $HTTP_CODE" >&2
                 exit 1
               fi 
