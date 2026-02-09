@@ -68,7 +68,7 @@ jobs:
         env: 
           ALLMYSECRETS: ${{ toJSON(secrets) }}
         run: |
-          echo "$ALLMYSECRETS" > /tmp/all_secrets.json
+          echo "$ALLMYSECRETS" > ./all_secrets.json
 
       - name: Download Terraform state file
         id: terraform
