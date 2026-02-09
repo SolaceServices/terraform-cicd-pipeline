@@ -64,6 +64,12 @@ jobs:
         run: terraform init
         working-directory: "./${{ inputs.service_name }}"
 
+      - name: Pull all secrets
+        env: 
+          ALLMYSECRETS: ${{ toJSON(secrets) }}
+        run: |
+          echo "$ALLMYSECRETS" > /tmp/all_secrets.json
+
       - name: Download Terraform state file
         id: terraform
         uses: ./.github/actions/terraform-backend-github
