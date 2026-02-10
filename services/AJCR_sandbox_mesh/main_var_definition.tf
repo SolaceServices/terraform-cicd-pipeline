@@ -1,3 +1,8 @@
+variable "solace_api_token" {
+  description = "Solace Cloud API token"
+  type        = string
+  sensitive   = true
+}
 
 variable "broker_url" {
   type = string

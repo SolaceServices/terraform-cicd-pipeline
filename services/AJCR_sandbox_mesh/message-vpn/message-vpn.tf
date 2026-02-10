@@ -38,14 +38,14 @@ resource "solacebroker_msg_vpn" "sandbox-vpn" {
   
   service_amqp_max_connection_count                       = 250
   service_amqp_plain_text_listen_port                     = 5672
-  service_amqp_tls_enabled                                = true
+  service_amqp_tls_enabled                                = false
   service_amqp_tls_listen_port                            = 5671
 
   service_mqtt_max_connection_count                       = 1000
   service_mqtt_plain_text_listen_port                     = 1883
-  service_mqtt_tls_enabled                                = true
+  service_mqtt_tls_enabled                                = false
   service_mqtt_tls_listen_port                            = 8883
-  service_mqtt_tls_web_socket_enabled                     = true
+  service_mqtt_tls_web_socket_enabled                     = false
   service_mqtt_tls_web_socket_listen_port                 = 8443
   service_mqtt_web_socket_listen_port                     = 8000
   
@@ -57,6 +57,7 @@ resource "solacebroker_msg_vpn" "sandbox-vpn" {
   
   service_smf_max_connection_count                        = 250
   service_smf_plain_text_enabled                          = false
+  service_smf_tls_enabled                                 = true
   service_web_max_connection_count                        = 1000
   service_web_plain_text_enabled                          = false
 

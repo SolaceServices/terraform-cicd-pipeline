@@ -12,7 +12,7 @@ resource "solacebroker_msg_vpn_client_profile" "sandbox-vpn_sdkperf_dmq_cp" {
   depends_on = [ solacebroker_msg_vpn.sandbox-vpn ]
   allow_guaranteed_msg_receive_enabled                              = true
   allow_guaranteed_msg_send_enabled                                 = true
-  client_profile_name                                               = "sdkperf_cp"
+  client_profile_name                                               = "sdkperf_dmq_cp"
   event_client_provisioned_endpoint_spool_usage_threshold           = {"clear_percent":18,"set_percent":25}
   event_connection_count_per_client_username_threshold              = {"clear_percent":60,"set_percent":80}
   event_egress_flow_count_threshold                                 = {"clear_percent":60,"set_percent":80}
@@ -35,17 +35,7 @@ resource "solacebroker_msg_vpn_client_username" "sandbox-vpn_sdkperf_dmq" {
   acl_profile_name     = solacebroker_msg_vpn_acl_profile.sandbox-vpn_sdkperf_dmq_acl.acl_profile_name
   client_profile_name  = solacebroker_msg_vpn_client_profile.sandbox-vpn_sdkperf_dmq_cp.client_profile_name
   client_username      = "sdkperf_dmq"
-  password             = var.testing_dmq_user_password
-  enabled              = true
-  msg_vpn_name         = solacebroker_msg_vpn.sandbox-vpn.msg_vpn_name
-  guaranteed_endpoint_permission_override_enabled = true
-}
-
-resource "solacebroker_msg_vpn_client_username" "sandbox-vpn_sdkperf_dmq_2" {
-  acl_profile_name     = solacebroker_msg_vpn_acl_profile.sandbox-vpn_sdkperf_dmq_acl.acl_profile_name
-  client_profile_name  = solacebroker_msg_vpn_client_profile.sandbox-vpn_sdkperf_dmq_cp.client_profile_name
-  client_username      = "sdkperf_dmq_2"
-  password             = var.testing_dmq_user_password
+  password             = var.sdkperf_dmq_user_password
   enabled              = true
   msg_vpn_name         = solacebroker_msg_vpn.sandbox-vpn.msg_vpn_name
   guaranteed_endpoint_permission_override_enabled = true

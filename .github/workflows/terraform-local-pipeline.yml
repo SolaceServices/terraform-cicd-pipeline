@@ -3,10 +3,10 @@ run-name: ${{ github.actor }} started the deployment
 on: 
   workflow_dispatch:
     inputs:
-      service_name:
+      environment:
         required: true
-        type: string
-        default: 'AJCR_sandbox_mesh'        
+        type: environment
+        default: 'AJCR_sandbox_mesh'
 jobs:
   debug-context:
     runs-on: self-hosted
@@ -62,13 +62,15 @@ jobs:
       - name: Terraform Init
         shell: bash
         run: terraform init
-        working-directory: "./${{ inputs.service_name }}"
+        working-directory: "./services/${{ inputs.environment }}"
 
-      - name: Pull all secrets
-        env: 
-          ALLMYSECRETS: ${{ toJSON(secrets) }}
-        run: |
-          echo "$ALLMYSECRETS" > ./all_secrets.json
+      - uses: easyware-io/export-to-env@v1
+        with:
+          secrets: ${{ toJSON(secrets) }}
+          only: ^_.*
+          prefix: TF_VAR
+          transform: lowercase
+          transformPrefix: false
 
       - name: Download Terraform state file
         id: terraform
@@ -78,19 +80,19 @@ jobs:
           token: ${{ secrets._XGITHUB_TOKEN }}
           action: download
           ref: ${{ github.ref_name }}
-          state_path_local: "./${{ inputs.service_name }}/tfstate/terraform.tfstate"
+          state_path_local: "./services/${{ inputs.environment }}/tfstate/terraform.tfstate"
           state_repo: "SolaceServices/terraform-cicd-pipeline"
-          state_path_remote: "${{ inputs.service_name }}/tfstate/terraform.tfstate"
+          state_path_remote: "services/${{ inputs.environment }}/tfstate/terraform.tfstate"
 
       - name: Terraform Plan
         shell: bash
         run: terraform plan -out=tfplan.tfplan
-        working-directory: "./${{ inputs.service_name }}"
+        working-directory: "./services/${{ inputs.environment }}"
 
       - name: Terraform Apply
         shell: bash
         run: terraform apply tfplan.tfplan
-        working-directory: "./${{ inputs.service_name }}"
+        working-directory: "./services/${{ inputs.environment }}"
 
       - name: Upload Terraform state file
         uses: ./.github/actions/terraform-backend-github
@@ -98,7 +100,7 @@ jobs:
           action: upload
           ref: ${{ github.ref_name }}
           sha: ${{ steps.terraform.outputs.sha }}
-          state_path_local: "./${{ inputs.service_name }}/tfstate/terraform.tfstate"
+          state_path_local: "./services/${{ inputs.environment }}/tfstate/terraform.tfstate"
           state_repo: "SolaceServices/terraform-cicd-pipeline"
-          state_path_remote: "${{ inputs.service_name }}/tfstate/terraform.tfstate"
+          state_path_remote: "services/${{ inputs.environment }}/tfstate/terraform.tfstate"
           token: ${{ secrets._XGITHUB_TOKEN }}
