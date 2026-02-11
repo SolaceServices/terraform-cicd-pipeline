@@ -102,3 +102,6 @@ module "message-vpn" {
   source = "./message-vpn"
 }
 
+module "sdkperf" {
+  source = "./sdkperf"
+}
