@@ -10,6 +10,7 @@ on:
 jobs:
   debug-context:
     runs-on: self-hosted
+    environment: ${{ inputs.environment }}
     steps:
       - name: Write GitHub context to log
         env:
@@ -47,6 +48,7 @@ jobs:
   solace-deployment:
     needs: debug-context
     runs-on: self-hosted
+    environment: ${{ inputs.environment }}
     permissions:
       # This is required for actions/checkout
       contents: read    
