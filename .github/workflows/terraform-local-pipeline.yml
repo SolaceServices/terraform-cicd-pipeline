@@ -88,7 +88,7 @@ jobs:
 
       - name: Terraform Plan
         shell: bash
-        run: terraform plan -out=tfplan.tfplan
+        run: terraform plan -out=tfplan.tfplan -input=false
         working-directory: "./services/${{ inputs.environment }}"
 
       - name: Terraform Apply
