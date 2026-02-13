@@ -66,6 +66,7 @@ runs:
       id: handle-state-file
       shell: bash
       run: |  
+        set -x;
         if [ "${{ inputs.action }}" = "download" ]; then
           curl -L \
             -H "Accept: application/vnd.github+json" \
@@ -107,11 +108,12 @@ runs:
             --arg email "${{ inputs.committer_email }}" \
             --arg content "$CONTENT" \
             --arg sha "${{ inputs.sha }}" \
+            --arg branch "${{ inputs.ref }}" \
             '{
               message: $msg,
               committer: {name: $name, email: $email},
               content: $content,
-              branch: "${{ inputs.ref }}",
+              branch: $branch,
             } + (if $sha != "initial_apply" then {sha: $sha} else {} end)' > payload.json
           curl -L \
             -X PUT \
