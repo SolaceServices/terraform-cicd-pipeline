@@ -106,7 +106,7 @@ runs:
           jq -n --arg msg "${{ inputs.commit_message }}" \
             --arg name "${{ inputs.committer_name }}" \
             --arg email "${{ inputs.committer_email }}" \
-            --arg content ""$CONTENT"" \
+            --arg content "\"$CONTENT\"" \
             --arg sha ""${{ inputs.sha }}"" \
             --arg branch ""${{ inputs.ref }}"" \
             '{
