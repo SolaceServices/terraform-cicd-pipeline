@@ -103,10 +103,11 @@ runs:
             exit 1
           fi
           CONTENT=$(base64 ${{ inputs.state_path_local }} | tr -d '\n')
+          echo "$CONTENT" > payload_content.txt"
           jq -n --arg msg "${{ inputs.commit_message }}" \
             --arg name "${{ inputs.committer_name }}" \
             --arg email "${{ inputs.committer_email }}" \
-            --arg content "\"$CONTENT\"" \
+            --rawfile content "payload_content.txt" \
             --arg sha ""${{ inputs.sha }}"" \
             --arg branch ""${{ inputs.ref }}"" \
             '{
