@@ -93,7 +93,7 @@ jobs:
 
       - name: Terraform Apply
         shell: bash
-        run: terraform apply tfplan.tfplan
+        run: terraform apply tfplan.tfplan -auto-approve
         working-directory: "./services/${{ inputs.environment }}"
 
       - name: Upload Terraform state file
