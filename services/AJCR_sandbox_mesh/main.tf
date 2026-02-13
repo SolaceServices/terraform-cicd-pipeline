@@ -108,3 +108,9 @@ module "sdkperf" {
   msg_vpn_name = module.message-vpn.message_vpn_name
   sdkperf_user_password = var.sdkperf_user_password
 }
+
+module "sdkperf_dmq" {
+  source = "./sdkperf_dmq"
+  msg_vpn_name = module.message-vpn.message_vpn_name
+  sdkperf_dmq_user_password = var.sdkperf_dmq_user_password
+}

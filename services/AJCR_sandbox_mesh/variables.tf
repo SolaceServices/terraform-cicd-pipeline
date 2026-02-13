@@ -25,3 +25,9 @@ variable "sdkperf_user_password" {
   type = string
   description = "Password for the sdkperf user."
 }
+#################
+variable "sdkperf_dmq_user_password" {
+  sensitive = true
+  type = string
+  description = "Password for the sdkperf DMQ user."
+}
