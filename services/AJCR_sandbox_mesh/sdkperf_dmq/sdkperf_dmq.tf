@@ -1,6 +1,5 @@
 #
 resource "solacebroker_msg_vpn_acl_profile" "sandbox-vpn_sdkperf_dmq_acl" {
-  depends_on = [ solacebroker_msg_vpn.sandbox-vpn ]
   acl_profile_name                = "sdkperf_dmq_acl"
   client_connect_default_action   = "allow"
   msg_vpn_name                    = var.msg_vpn_name
@@ -9,7 +8,6 @@ resource "solacebroker_msg_vpn_acl_profile" "sandbox-vpn_sdkperf_dmq_acl" {
 }
 
 resource "solacebroker_msg_vpn_client_profile" "sandbox-vpn_sdkperf_dmq_cp" {
-  depends_on = [ solacebroker_msg_vpn.sandbox-vpn ]
   allow_guaranteed_msg_receive_enabled                              = true
   allow_guaranteed_msg_send_enabled                                 = true
   client_profile_name                                               = "sdkperf_dmq_cp"
@@ -32,6 +30,7 @@ resource "solacebroker_msg_vpn_client_profile" "sandbox-vpn_sdkperf_dmq_cp" {
 }
 
 resource "solacebroker_msg_vpn_client_username" "sandbox-vpn_sdkperf_dmq" {
+  depends_on = [ solacebroker_msg_vpn_client_profile.sandbox-vpn_sdkperf_dmq_cp, solacebroker_msg_vpn_acl_profile.sandbox-vpn_sdkperf_dmq_acl ]
   acl_profile_name     = solacebroker_msg_vpn_acl_profile.sandbox-vpn_sdkperf_dmq_acl.acl_profile_name
   client_profile_name  = solacebroker_msg_vpn_client_profile.sandbox-vpn_sdkperf_dmq_cp.client_profile_name
   client_username      = "sdkperf_dmq"
