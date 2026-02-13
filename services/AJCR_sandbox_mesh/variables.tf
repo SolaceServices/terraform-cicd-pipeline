@@ -19,3 +19,9 @@ variable "broker_password" {
   type = string
   description = "The management password of the Solace broker."
 }
+#################
+variable "sdkperf_user_password" {
+  sensitive = true
+  type = string
+  description = "Password for the sdkperf user."
+}

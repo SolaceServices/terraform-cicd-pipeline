@@ -1,4 +1,4 @@
-resource "solacebroker_msg_vpn" "sandbox-vpn" {
+resource "solacebroker_msg_vpn" "message-vpn" {
   authentication_basic_type                               = "internal"
   authentication_client_cert_max_chain_depth              = 8
   authentication_client_cert_validate_date_enabled        = false
@@ -33,7 +33,7 @@ resource "solacebroker_msg_vpn" "sandbox-vpn" {
   max_subscription_count                                  = 50000
   max_transacted_session_count                            = 500
   max_transaction_count                                   = 2500
-  msg_vpn_name                                            = "sandbox"
+  msg_vpn_name                                            = var.msg_vpn_name
   rest_tls_server_cert_max_chain_depth                    = 8
   
   service_amqp_max_connection_count                       = 250
@@ -63,15 +63,15 @@ resource "solacebroker_msg_vpn" "sandbox-vpn" {
 
 }
 
-resource "solacebroker_msg_vpn_acl_profile" "sandbox-vpn_default" {
+resource "solacebroker_msg_vpn_acl_profile" "message_vpn_default_acl" {
   acl_profile_name                = "default"
   client_connect_default_action   = "allow"
-  msg_vpn_name                    = solacebroker_msg_vpn.sandbox-vpn.msg_vpn_name
+  msg_vpn_name                    = solacebroker_msg_vpn.message-vpn.msg_vpn_name
   publish_topic_default_action    = "allow"
   subscribe_topic_default_action  = "allow"
 }
 
-resource "solacebroker_msg_vpn_client_profile" "sandbox-vpn_default" {
+resource "solacebroker_msg_vpn_client_profile" "message_vpn_default_cp" {
   allow_bridge_connections_enabled                                  = true
   allow_guaranteed_endpoint_create_enabled                          = true
   allow_guaranteed_msg_receive_enabled                              = true
@@ -96,19 +96,19 @@ resource "solacebroker_msg_vpn_client_profile" "sandbox-vpn_default" {
   max_subscription_count                                            = 50000
   max_transacted_session_count                                      = 500
   max_transaction_count                                             = 2500
-  msg_vpn_name                                                      = solacebroker_msg_vpn.sandbox-vpn.msg_vpn_name
+  msg_vpn_name                                                      = solacebroker_msg_vpn.message-vpn.msg_vpn_name
   service_smf_max_connection_count_per_client_username              = 1000
   service_web_max_connection_count_per_client_username              = 1000
 }
 
-resource "solacebroker_msg_vpn_client_username" "sandbox-vpn_default" {
+resource "solacebroker_msg_vpn_client_username" "message_vpn_default" {
   client_username  = "default"
-  msg_vpn_name     = solacebroker_msg_vpn.sandbox-vpn.msg_vpn_name
+  msg_vpn_name     = solacebroker_msg_vpn.message-vpn.msg_vpn_name
 
 }
 
-resource "solacebroker_msg_vpn_client_username" "sandbox-vpn_solace-cloud-client" {
+resource "solacebroker_msg_vpn_client_username" "message_vpn_solace_cloud_client" {
   client_username  = "solace-cloud-client"
   enabled          = true
-  msg_vpn_name     = solacebroker_msg_vpn.sandbox-vpn.msg_vpn_name
+  msg_vpn_name     = solacebroker_msg_vpn.message-vpn.msg_vpn_name
 }

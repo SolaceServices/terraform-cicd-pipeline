@@ -100,8 +100,11 @@ resource "solacecloud_service" "broker_service" {
 
 module "message-vpn" {
   source = "./message-vpn"
+  msg_vpn_name = "sandbox"
 }
 
 module "sdkperf" {
   source = "./sdkperf"
+  msg_vpn_name = module.message-vpn.message_vpn_name
+  sdkperf_user_password = var.sdkperf_user_password
 }

@@ -2,7 +2,7 @@
 resource "solacebroker_msg_vpn_acl_profile" "sandbox-vpn_sdkperf_acl" {
   acl_profile_name                = "sdkperf_acl"
   client_connect_default_action   = "allow"
-  msg_vpn_name                    = solacebroker_msg_vpn.sandbox-vpn.msg_vpn_name
+  msg_vpn_name                    = var.msg_vpn_name
   publish_topic_default_action    = "allow"
   subscribe_topic_default_action  = "allow"
 
@@ -25,7 +25,7 @@ resource "solacebroker_msg_vpn_client_profile" "sandbox-vpn_sdkperf_cp" {
   max_connection_count_per_client_username                          = 1000
   max_subscription_count                                            = 500000
   max_transaction_count                                             = 5000
-  msg_vpn_name                                                      = solacebroker_msg_vpn.sandbox-vpn.msg_vpn_name
+  msg_vpn_name                                                      = var.msg_vpn_name
   service_smf_max_connection_count_per_client_username              = 1000
   service_web_max_connection_count_per_client_username              = 1000
 
@@ -37,6 +37,6 @@ resource "solacebroker_msg_vpn_client_username" "sandbox-vpn_sdkperf" {
     client_profile_name  = solacebroker_msg_vpn_client_profile.sandbox-vpn_sdkperf_cp.client_profile_name
     client_username      = "sdkperf"
     enabled              = true
-    msg_vpn_name         = solacebroker_msg_vpn.sandbox-vpn.msg_vpn_name
+    msg_vpn_name         = var.msg_vpn_name
     password             = var.sdkperf_user_password
 }
