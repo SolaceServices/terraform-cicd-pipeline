@@ -24,7 +24,10 @@ pipeline {
 		}	        
         stage('Terraform init') {
             steps {
-                sh 'terraform init'
+                script {
+                    cd "services/${SERVICE}"
+                    sh 'terraform init'
+                }
             }
         }        
     }
