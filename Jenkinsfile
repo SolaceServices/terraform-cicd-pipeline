@@ -20,6 +20,7 @@ pipeline {
                     sh 'printenv'	
                     echo "Service: ${SERVICE}"
                    }
+            }
 		}	        
         stage('Terraform init') {
             steps {
