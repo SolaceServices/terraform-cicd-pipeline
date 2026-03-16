@@ -9,8 +9,12 @@ pipeline {
     	choice(name: 'SERVICE', choices:['AJCR_sandbox_mesh', 'AJCR_Reporting'], description: 'Solace Broker Service')
     }
     stages {
-        stage('Stage 1') {
+        stage('Setup') {
             steps {
+                script{
+                    working_dir = pwd() + "/services/${SERVICE}"
+                    echo "Working dir: ${working_dir}"
+                }
                 echo 'Hello world!' 
             }
         }
@@ -18,13 +22,13 @@ pipeline {
 		    steps {
                 script {
                     sh 'printenv'	
-                    echo "Service: ${SERVICE}"
+                    echo "Service: ${working_dir}"
                    }
             }
 		}	        
         stage('Terraform init') {
             steps {
-                dir('services/${SERVICE}') {
+                dir(working_dir) {
                     script {
                         sh 'terraform init'
                     }
